@@ -32,6 +32,7 @@ const AdsList = () => {
         {ads.length > 0 ? (
           ads.map((ad) => (
             <div key={ad.id} className="ad">
+              <img className="car-image" src={ad.car.image_url.url} alt={ad.car.image_url.url} />
               <h3>{ad.car.name}</h3>
               <p>{ad.car.model.name}</p>
               <p>Объем двигателя: {ad.car.volume} л.куб.</p>

@@ -7,6 +7,21 @@
   gap: 10px; /* Отступы между элементами (необязательно) */
 }
 
-.ad-header {
-  font-size: x-large;
+.ad {
+    border-style: solid;
+    border-width: 0.5px;
+    border-color: black;
+    border-radius: 7px;
+    margin: 15px;
+    padding: 0;
+  }
+  
+.ad * {
+    margin: 5px;
+}
+
+.car-image {
+    height: 100;
+    margin: 0;
+    width: 100%
 }
