@@ -1,21 +1,21 @@
-import { useState } from 'react';
-import axios from 'axios';
-import './CreateAd.css'
+import { useState } from "react";
+import axios from "axios";
+import "./CreateAd.css";
 
 const AdForm = () => {
-  const [name, setName] = useState('');
-  const [model, setModel] = useState('');
-  const [price, setPrice] = useState('');
-  const [mileage, setMileage] = useState('');
-  const [bodyType, setBodyType] = useState('');
-  const [power, setPower] = useState('');
-  const [diskRadius, setDiskRadius] = useState('');
-  const [transmissionType, setTransmissionType] = useState('');
-  const [driveType, setDriveType] = useState('');
-  const [engineType, setEngineType] = useState('');
-  const [volume, setVolume] = useState('');
-  const [color, setColor] = useState('');
-  const [image_url, setImageUrl] = useState(''); // новое состояние для ссылки на фото
+  const [name, setName] = useState("");
+  const [model, setModel] = useState("");
+  const [price, setPrice] = useState("");
+  const [mileage, setMileage] = useState("");
+  const [bodyType, setBodyType] = useState("");
+  const [power, setPower] = useState("");
+  const [diskRadius, setDiskRadius] = useState("");
+  const [transmissionType, setTransmissionType] = useState("");
+  const [driveType, setDriveType] = useState("");
+  const [engineType, setEngineType] = useState("");
+  const [volume, setVolume] = useState("");
+  const [color, setColor] = useState("");
+  const [image_url, setImageUrl] = useState(""); // новое состояние для ссылки на фото
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
@@ -24,7 +24,7 @@ const AdForm = () => {
     setError(null);
     setSuccessMessage(null);
 
-    const apiUrl = 'http://localhost:8000/ads/create';
+    const apiUrl = "http://localhost:8000/ads/create";
 
     try {
       const newAd = {
@@ -43,31 +43,32 @@ const AdForm = () => {
         image_url: image_url, // добавлено поле для ссылки на фото
       };
 
-    const params = new URLSearchParams(newAd).toString(); // Преобразуем объект в строку параметров
-    await axios.post(`${apiUrl}?${params}`); // Добавляем строку параметров к URL
-    
-      setSuccessMessage('Объявление о машине создано успешно!');
+      const params = new URLSearchParams(newAd).toString(); // Преобразуем объект в строку параметров
+      await axios.post(`${apiUrl}?${params}`); // Добавляем строку параметров к URL
+
+      setSuccessMessage("Объявление о машине создано успешно!");
       // Сбрасываем поля формы
-      setName('');
-      setModel('');
-      setPrice('');
-      setMileage('');
-      setBodyType('');
-      setPower('');
-      setDiskRadius('');
-      setTransmissionType('');
-      setDriveType('');
-      setEngineType('');
-      setVolume('');
-      setColor('');
-      setImageUrl(''); // сбрасываем поле для ссылки на фото
+      setName("");
+      setModel("");
+      setPrice("");
+      setMileage("");
+      setBodyType("");
+      setPower("");
+      setDiskRadius("");
+      setTransmissionType("");
+      setDriveType("");
+      setEngineType("");
+      setVolume("");
+      setColor("");
+      setImageUrl(""); // сбрасываем поле для ссылки на фото
 
       // Вызов функции для обновления списка объявлений
     } catch (err) {
-        console.log(err)
-      const errorMessage = err.response && err.response.data 
-        ? err.detail|| 'Что-то пошло не так' 
-        : 'Ошибка при создании объявления о машине';
+      console.log(err);
+      const errorMessage =
+        err.response && err.response.data
+          ? err.detail || "Что-то пошло не так"
+          : "Ошибка при создании объявления о машине";
 
       setError(`Ошибка: ${errorMessage}. URL: ${apiUrl}`);
     }
@@ -132,7 +133,6 @@ const AdForm = () => {
         required
       />
       <input
-
         type="text"
         value={driveType}
         onChange={(e) => setDriveType(e.target.value)}
@@ -169,8 +169,8 @@ const AdForm = () => {
         required
       />
       <button type="submit">Создать объявление</button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
     </form>
   );
 };

@@ -1,13 +1,17 @@
 .create-ad-form {
-    width: 600px;
-    text-align: center;
-    display: flexbox;
+  width: 600px;
+  text-align: center;
+  display: flexbox;
+  border-color: balck;
+  border-style: solid;
+  border-width: 0.5px;
+  border-radius: 10px;
 }
 
 .create-ad-form input {
-    margin: 10px;
-    border-style: solid;
-    border-radius: 11px;
-    height: 40px;
-    width: 250px
+  margin: 10px;
+  border-style: solid;
+  border-radius: 11px;
+  height: 40px;
+  width: 250px;
 }

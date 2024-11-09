@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import './AdsList.css'
+import { useEffect, useState } from "react";
+import axios from "axios";
+import "./AdsList.css";
 
 const AdsList = () => {
   const [ads, setAds] = useState([]);
@@ -10,7 +10,7 @@ const AdsList = () => {
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/ads/all');
+        const response = await axios.get("http://localhost:8000/ads/all");
         setAds(response.data.data);
       } catch (e) {
         setError(`Ошибка загрузки объявлений ${e}`);
@@ -30,7 +30,7 @@ const AdsList = () => {
       <h1>Объявления</h1>
       <div className="ads-wrapper">
         {ads.length > 0 ? (
-          ads.map(ad => (
+          ads.map((ad) => (
             <div key={ad.id} className="ad">
               <h3>{ad.car.name}</h3>
               <p>{ad.car.model.name}</p>
@@ -41,8 +41,12 @@ const AdsList = () => {
               <p>Тип трансмиссии: {ad.car.transmission}</p>
               <p>Цвет: {ad.car.color}</p>
               <p>Тип привода: {ad.car.drive}</p>
-              <p><strong>Цена:</strong> {ad.car.price}₽</p>
-              <p>Владелец: {ad.user.name} ({ad.user.contact_number})</p>
+              <p>
+                <strong>Цена:</strong> {ad.car.price}₽
+              </p>
+              <p>
+                Владелец: {ad.user.name} ({ad.user.contact_number})
+              </p>
             </div>
           ))
         ) : (

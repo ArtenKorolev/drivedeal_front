@@ -1,9 +1,12 @@
 .ads-wrapper {
-    display: grid; /* Включаем grid-контейнер */
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Настраиваем количество колонок */
-    gap: 10px; /* Отступы между элементами (необязательно) */
+  display: grid; /* Включаем grid-контейнер */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(300px, 1fr)
+  ); /* Настраиваем количество колонок */
+  gap: 10px; /* Отступы между элементами (необязательно) */
 }
 
 .ad-header {
-    font-size:x-large;
+  font-size: x-large;
 }
