@@ -148,6 +148,7 @@ const AdForm = () => {
       />
       <input
         type="number"
+        step="0.1"
         value={volume}
         onChange={(e) => setVolume(e.target.value)}
         placeholder="Объем двигателя"
