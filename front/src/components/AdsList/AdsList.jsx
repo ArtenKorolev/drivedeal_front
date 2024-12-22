@@ -12,13 +12,13 @@ const AdsList = () => {
       try {
         const response = await axios.get("http://localhost:8000/ads/all");
         setAds(response.data.data);
+        console.log(response.data.data);
       } catch (e) {
         setError(`Ошибка загрузки объявлений ${e}`);
       } finally {
         setLoading(false);
       }
     };
-
     fetchAds();
   }, []);
 
@@ -27,18 +27,25 @@ const AdsList = () => {
 
   return (
     <div>
-      <h1>Объявления</h1>
       <div className="ads-wrapper">
         {ads.length > 0 ? (
           ads.map((ad) => (
             <div key={ad.id} className="ad">
-              <img className="car-image" src={ad.car.image_url.url} alt={ad.car.image_url.url} />
+              <img
+                className="car-image"
+                src={ad.car.image_url}
+                alt={ad.car.image_url}
+              />
               <div className="car-info">
-                <p>{ad.car.model.name} {ad.car.name} {ad.car.transmission}</p>
+                <p>
+                  {ad.car.model.name} {ad.car.name} {ad.car.transmission}
+                </p>
                 <p>{ad.car.mileage} км</p>
                 <p>{ad.car.body}</p>
                 <p>{ad.car.drive}</p>
-                <p>{ad.car.volume} ({ad.car.power} л.с)</p>
+                <p>
+                  {ad.car.volume} л.куб ({ad.car.power} л.с)
+                </p>
                 <p className="car-price">{ad.car.price} ₽</p>
               </div>
             </div>

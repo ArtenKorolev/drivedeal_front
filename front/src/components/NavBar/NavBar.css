@@ -1,0 +1,27 @@
+.nav-bar {
+  height: 190px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  margin-top: 39px;
+  margin-left: 92px;
+  font-size: 40px;
+  height: 50px;
+  width: 153px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: black;
+  font-size: 24px;
+  margin-left: 49px;
+}
+
+.nav-buttons {
+  margin-top: 39px;
+  margin-right: 64px;
+  height: 32px;
+  width: 348px;
+}
