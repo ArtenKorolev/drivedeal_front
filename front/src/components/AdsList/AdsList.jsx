@@ -19,35 +19,35 @@ const AdsList = () => {
         setLoading(false);
       }
     };
-    fetchAds();
+    fetchAds()
   }, []);
-
+  
   if (loading) return <p>Загрузка объявлений...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <div>
       <div className="ads-wrapper">
-        {ads.length > 0 ? (
-          ads.map((ad) => (
+        {ads.cars.length > 0 ? (
+          ads.cars.map((ad) => (
             <div key={ad.id} className="ad">
+
               <img
                 className="car-image"
-                src={ad.car.image_url}
-                alt={ad.car.image_url}
+                src={ad.image_url}
+                alt={ad.description}
               />
+
               <div className="car-info">
                 <p>
-                  {ad.car.model.name} {ad.car.name} {ad.car.transmission}
+                  {ad.model} {ad.name} {ad.year} {ad.transmission}
                 </p>
-                <p>{ad.car.mileage} км</p>
-                <p>{ad.car.body}</p>
-                <p>{ad.car.drive}</p>
-                <p>
-                  {ad.car.volume} л.куб ({ad.car.power} л.с)
-                </p>
-                <p className="car-price">{ad.car.price} ₽</p>
+                <p>{ad.mileage} км</p>
+                <p>{ad.steering_wheel_side} руль</p>
+                <p className="car-description">{ad.description}</p>
+                <p className="car-price">{ad.price} ₽</p>
               </div>
+
             </div>
           ))
         ) : (

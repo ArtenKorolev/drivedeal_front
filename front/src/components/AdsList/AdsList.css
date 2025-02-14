@@ -52,3 +52,9 @@
   display: inline-block;
   float: right;
 }
+
+.car-description {
+  font-size: medium;
+  color: #5d5d5d;
+  font-weight: 400;
+}
