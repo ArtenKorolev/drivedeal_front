@@ -35,7 +35,7 @@ const AdsList = () => {
               <img
                 className="car-image"
                 src={ad.image_url}
-                alt={ad.description}
+                alt={ad.name}
               />
 
               <div className="car-info">
