@@ -1,0 +1,130 @@
+.reg-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.reg-input {
+    margin: 10px;
+    border-style: solid;
+    border-radius: 11px;
+    height: 40px;
+    width: 250px;
+}
+
+.reg-submit-button {
+    background-color: #ececec;
+    /* Темно-серый строгий фон */
+    color: #5f5f5f;
+    /* Белый текст */
+    font-size: 16px;
+    font-weight: 500;
+    /* Не слишком жирный текст, чтобы он выглядел профессионально */
+    padding: 12px 20px;
+    border: 0.5px solid #8f8e8e;
+    /* Тонкая граница */
+    border-radius: 4px;
+    /* Очень легкое закругление */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* General container styles */
+.register-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f0f0f0;
+}
+
+/* Header styles */
+.register-header {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Form styles */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Form group styles */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #555555;
+}
+
+.form-input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    background-color: #f9f9f9;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+}
+
+/* Submit button styles */
+.submit-button {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.submit-button:active {
+    transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .register-container {
+        padding: 16px;
+    }
+
+    .submit-button {
+        width: 100%;
+    }
+}

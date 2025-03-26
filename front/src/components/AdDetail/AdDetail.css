@@ -1,0 +1,107 @@
+.details-button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.details-button:hover {
+  background-color: #0056b3;
+}
+
+/* General container styles */
+.ad-details-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styles */
+.ad-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.ad-details-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.ad-details-price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Content styles */
+.ad-details-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.ad-details-image {
+  flex: 1 1 300px;
+  max-width: 400px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ad-details-info {
+  flex: 1 1 300px;
+  font-size: 16px;
+  color: #555;
+}
+
+.ad-details-info p {
+  margin-bottom: 8px;
+}
+
+.ad-details-info strong {
+  color: #333;
+}
+
+/* Owner contact styles */
+.ad-details-owner {
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ad-details-owner h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.ad-details-owner p {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.ad-details-owner strong {
+  color: #333;
+}
+
+/* Loading and error messages */
+.loading-message,
+.error-message {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+}

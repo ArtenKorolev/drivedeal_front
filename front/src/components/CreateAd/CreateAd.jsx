@@ -3,21 +3,28 @@ import axios from "axios";
 import "./CreateAd.css";
 
 const AdForm = () => {
-  const [name, setName] = useState("");
-  const [model, setModel] = useState("");
-  const [price, setPrice] = useState("");
-  const [mileage, setMileage] = useState("");
-  const [bodyType, setBodyType] = useState("");
-  const [power, setPower] = useState("");
-  const [diskRadius, setDiskRadius] = useState("");
-  const [transmissionType, setTransmissionType] = useState("");
-  const [driveType, setDriveType] = useState("");
-  const [engineType, setEngineType] = useState("");
-  const [volume, setVolume] = useState("");
-  const [color, setColor] = useState("");
-  const [image_url, setImageUrl] = useState(""); // новое состояние для ссылки на фото
+  const [formData, setFormData] = useState({
+    name: "",
+    model: "",
+    year: "",
+    price: "",
+    mileage: "",
+    transmission: "",
+    description: "",
+    steering_wheel_side: "",
+    color: "",
+    image_url: "",
+  });
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,46 +35,49 @@ const AdForm = () => {
 
     try {
       const newAd = {
-        name,
-        model,
-        price: parseInt(price, 10),
-        mileage: parseInt(mileage, 10),
-        body_type: bodyType,
-        power: parseInt(power, 10),
-        disk_radius: parseInt(diskRadius, 10),
-        transmission_type: transmissionType,
-        drive_type: driveType,
-        engine_type: engineType,
-        volume: parseFloat(volume),
-        color,
-        image_url: image_url, // добавлено поле для ссылки на фото
+        ...formData,
+        price: parseInt(formData.price, 10),
+        mileage: parseInt(formData.mileage, 10),
+        year: parseInt(formData.year, 10),
       };
 
-      const params = new URLSearchParams(newAd).toString(); // Преобразуем объект в строку параметров
-      await axios.post(`${apiUrl}?${params}`); // Добавляем строку параметров к URL
+      const token = localStorage.getItem("authToken");
+
+      if (!token) {
+        setError("Токен авторизации отсутствует. Пожалуйста, войдите в систему.");
+        return;
+      }
+
+      const queryParams = new URLSearchParams(newAd).toString();
+
+      await axios.post(
+        `${apiUrl}?${queryParams}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       setSuccessMessage("Объявление о машине создано успешно!");
-      // Сбрасываем поля формы
-      setName("");
-      setModel("");
-      setPrice("");
-      setMileage("");
-      setBodyType("");
-      setPower("");
-      setDiskRadius("");
-      setTransmissionType("");
-      setDriveType("");
-      setEngineType("");
-      setVolume("");
-      setColor("");
-      setImageUrl(""); // сбрасываем поле для ссылки на фото
-
-      // Вызов функции для обновления списка объявлений
+      setFormData({
+        name: "",
+        model: "",
+        price: "",
+        mileage: "",
+        year: "",
+        transmission: "",
+        description: "",
+        steering_wheel_side: "",
+        color: "",
+        image_url: "",
+      });
     } catch (err) {
       console.log(err);
       const errorMessage =
         err.response && err.response.data
-          ? err.detail || "Что-то пошло не так"
+          ? err.response.data.detail || "Что-то пошло не так"
           : "Ошибка при создании объявления о машине";
 
       setError(`Ошибка: ${errorMessage}. URL: ${apiUrl}`);
@@ -75,103 +85,142 @@ const AdForm = () => {
   };
 
   return (
-    <form className="create-ad-form" onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Название"
-        required
-      />
-      <input
-        type="text"
-        value={model}
-        onChange={(e) => setModel(e.target.value)}
-        placeholder="Модель"
-        required
-      />
-      <input
-        type="number"
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-        placeholder="Цена"
-        required
-      />
-      <input
-        type="number"
-        value={mileage}
-        onChange={(e) => setMileage(e.target.value)}
-        placeholder="Пробег"
-        required
-      />
-      <input
-        type="text"
-        value={bodyType}
-        onChange={(e) => setBodyType(e.target.value)}
-        placeholder="Тип кузова"
-        required
-      />
-      <input
-        type="number"
-        value={power}
-        onChange={(e) => setPower(e.target.value)}
-        placeholder="Мощность"
-        required
-      />
-      <input
-        type="number"
-        value={diskRadius}
-        onChange={(e) => setDiskRadius(e.target.value)}
-        placeholder="Диаметр диска"
-        required
-      />
-      <input
-        type="text"
-        value={transmissionType}
-        onChange={(e) => setTransmissionType(e.target.value)}
-        placeholder="Тип трансмиссии"
-        required
-      />
-      <input
-        type="text"
-        value={driveType}
-        onChange={(e) => setDriveType(e.target.value)}
-        placeholder="Тип привода"
-        required
-      />
-      <input
-        type="text"
-        value={engineType}
-        onChange={(e) => setEngineType(e.target.value)}
-        placeholder="Тип двигателя"
-        required
-      />
-      <input
-        type="number"
-        step="0.1"
-        value={volume}
-        onChange={(e) => setVolume(e.target.value)}
-        placeholder="Объем двигателя"
-        required
-      />
-      <input
-        type="text"
-        value={color}
-        onChange={(e) => setColor(e.target.value)}
-        placeholder="Цвет"
-        required
-      />
-      <input
-        type="text"
-        value={image_url}
-        onChange={(e) => setImageUrl(e.target.value)}
-        placeholder="Ссылка на фото"
-        required
-      />
-      <button type="submit">Создать объявление</button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
-    </form>
+    <div className="create-ad-container">
+      <h1 className="create-ad-title">Создать объявление</h1>
+      <form className="create-ad-form" onSubmit={handleSubmit}>
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="name" className="form-label">Имя</label>
+            <input
+              id="name"
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="form-input"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="model" className="form-label">Модель</label>
+            <input
+              id="model"
+              type="text"
+              name="model"
+              value={formData.model}
+              onChange={handleChange}
+              className="form-input"
+              required
+            />
+          </div>
+        </div>
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="year" className="form-label">Год выпуска</label>
+            <input
+              id="year"
+              type="number"
+              name="year"
+              value={formData.year}
+              onChange={handleChange}
+              className="form-input"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="price" className="form-label">Цена</label>
+            <input
+              id="price"
+              type="number"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+              className="form-input"
+              required
+            />
+          </div>
+        </div>
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="mileage" className="form-label">Пробег</label>
+            <input
+              id="mileage"
+              type="number"
+              name="mileage"
+              value={formData.mileage}
+              onChange={handleChange}
+              className="form-input"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="transmission" className="form-label">Тип трансмиссии</label>
+            <input
+              id="transmission"
+              type="text"
+              name="transmission"
+              value={formData.transmission}
+              onChange={handleChange}
+              className="form-input"
+              required
+            />
+          </div>
+        </div>
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="steering_wheel_side" className="form-label">Сторона руля</label>
+            <input
+              id="steering_wheel_side"
+              type="text"
+              name="steering_wheel_side"
+              value={formData.steering_wheel_side}
+              onChange={handleChange}
+              className="form-input"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="color" className="form-label">Цвет</label>
+            <input
+              id="color"
+              type="text"
+              name="color"
+              value={formData.color}
+              onChange={handleChange}
+              className="form-input"
+              required
+            />
+          </div>
+        </div>
+        <div className="form-group">
+          <label htmlFor="description" className="form-label">Описание</label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            className="form-input"
+            rows="3"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="image_url" className="form-label">URL изображения</label>
+          <input
+            id="image_url"
+            type="text"
+            name="image_url"
+            value={formData.image_url}
+            onChange={handleChange}
+            className="form-input"
+            required
+          />
+        </div>
+        <button type="submit" className="submit-button">Создать объявление</button>
+        {error && <p className="error-message">{error}</p>}
+        {successMessage && <p className="success-message">{successMessage}</p>}
+      </form>
+    </div>
   );
 };
 

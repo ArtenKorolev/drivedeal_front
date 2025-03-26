@@ -1,18 +1,133 @@
-.create-ad-form {
-  width: 600px;
-  text-align: center;
-  display: flexbox;
-  border-color: balck;
-  border-style: solid;
-  border-width: 0.5px;
-  border-radius: 10px;
-  margin-left: 30%;
+/* General container styles */
+.create-ad-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
 }
 
-.create-ad-form input {
-  margin: 10px;
-  border-style: solid;
-  border-radius: 11px;
-  height: 40px;
-  width: 250px;
+/* Title styles */
+.create-ad-title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Form styles */
+.create-ad-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Grouping input fields into rows */
+.form-row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/* Form group styles */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+}
+
+/* Label styles */
+.form-label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: #555555;
+}
+
+/* Input styles */
+.form-input {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  background-color: #f9f9f9;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+}
+
+/* Submit button styles */
+.submit-button {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  width: 200px;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.submit-button:active {
+  transform: translateY(0);
+}
+
+/* Error and success messages */
+.error-message {
+  color: #d9534f;
+  font-size: 14px;
+  text-align: center;
+}
+
+.success-message {
+  color: #5cb85c;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Add spacing to the right column */
+.form-row .form-group:last-child {
+  margin-right: 16px;
+  /* Add a right margin to the last column */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .create-ad-container {
+    padding: 16px;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-group {
+    max-width: 100%;
+  }
+
+  .submit-button {
+    width: 100%;
+  }
 }

@@ -1,31 +1,38 @@
 import "./NavBar.css";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
-const NavBar = ({ showCreateForm, showAdsList, showLoginForm }) => {
+const NavBar = ({ username }) => {
   return (
-    <div className="nav-bar">
+    <nav className="nav-bar">
       <div className="logo">
-        <p>DriveDeal</p>
+        <Link to="/" className="nav-link logo-link">
+          DriveDeal
+        </Link>
       </div>
       <div className="nav-buttons">
-        <a href="#" className="nav-link" onClick={showCreateForm}>
+        <Link to="/create" className="nav-link">
           Продать
-        </a>
-        <a href="#" className="nav-link" onClick={showAdsList}>
+        </Link>
+        <Link to="/" className="nav-link">
           Купить
-        </a>
-        <a href="#" className="nav-link" onClick={showLoginForm}>
-          Войти
-        </a>
+        </Link>
+        {username ? (
+          <Link to="/profile" className="nav-link">
+            {username}
+          </Link>
+        ) : (
+          <Link to="/login" className="nav-link">
+            Войти
+          </Link>
+        )}
       </div>
-    </div>
+    </nav>
   );
 };
 
 NavBar.propTypes = {
-  showCreateForm: PropTypes.func.isRequired,
-  showAdsList: PropTypes.func.isRequired,
-  showLoginForm: PropTypes.func.isRequired,
+  username: PropTypes.string,
 };
 
 export default NavBar;

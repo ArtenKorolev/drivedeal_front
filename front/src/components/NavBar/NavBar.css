@@ -1,27 +1,103 @@
+/* General navbar styles */
 .nav-bar {
-  height: 190px;
   display: flex;
   justify-content: space-between;
+  /* Space between logo and buttons */
+  align-items: center;
+  /* Center items vertically */
+  padding: 10px 20px;
+  /* Adjust padding for a balanced look */
+  background-color: #007bff;
+  /* Primary blue color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  margin-bottom: 20px;
+  /* Add spacing below the navbar */
 }
 
+/* Logo styles */
 .logo {
-  margin-top: 39px;
-  margin-left: 92px;
-  font-size: 40px;
-  height: 50px;
-  width: 153px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.logo-link {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.logo-link:hover {
+  color: #d9d9d9;
+}
+
+/* Navigation buttons */
+.nav-buttons {
+  display: flex;
+  /* Arrange buttons in a row */
+  gap: 16px;
+  /* Add spacing between buttons */
 }
 
 .nav-link {
+  color: #ffffff;
   text-decoration: none;
-  color: black;
-  font-size: 24px;
-  margin-left: 49px;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  text-align: center;
 }
 
-.nav-buttons {
-  margin-top: 39px;
-  margin-right: 64px;
-  height: 32px;
-  width: 348px;
+.nav-link:hover {
+  background-color: #0056b3;
+  color: #ffffff;
+}
+
+/* Logout button */
+.logout-button {
+  background-color: #ff4d4d;
+  /* Red for logout */
+  color: #ffffff;
+  border: none;
+  padding: 8px 12px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.logout-button:hover {
+  background-color: #cc0000;
+  transform: translateY(-2px);
+}
+
+.logout-button:active {
+  transform: translateY(0);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .nav-bar {
+    flex-direction: column;
+    /* Stack logo and buttons vertically on smaller screens */
+    align-items: center;
+    padding: 15px 0;
+  }
+
+  .nav-buttons {
+    flex-direction: column;
+    /* Stack buttons vertically */
+    gap: 12px;
+  }
+
+  .nav-link,
+  .logout-button {
+    width: 100%;
+    text-align: center;
+  }
 }
