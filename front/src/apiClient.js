@@ -2,7 +2,7 @@ import axios from "axios";
 import { refreshAccessToken } from "./authUtils"; // Import the refresh utility
 
 const apiClient = axios.create({
-    baseURL: "http://localhost:8000", // Base URL for your API
+    baseURL: "http://192.168.0.111:8000", // Base URL for your API
     withCredentials: true, // Include cookies in requests if needed
 });
 

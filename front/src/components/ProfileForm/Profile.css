@@ -40,27 +40,187 @@
     background-color: #0056b3;
 }
 
+/* General container styling */
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f9;
+    padding: 20px;
+}
+
+/* Profile card styling */
+.profile-card {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Profile image styling */
 .profile-image {
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
-    height: 240px;
-    width: 240px;
+    margin-bottom: 20px;
+    object-fit: cover;
+    border: 2px solid #007bff;
 }
 
+/* Profile header styling */
+.profile-header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Profile item styling */
 .profile-item {
-    margin: 10px
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 10px;
+    text-align: left;
 }
 
+/* Logout button styling */
 .logout-button {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #ff4d4d;
-    color: white;
+    background-color: #a81f1a;
+    color: #ffffff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 .logout-button:hover {
-    background-color: #e60000;
+    background-color: #0056b3;
+}
+
+/* Ads section styling */
+.ads-section {
+    width: 100%;
+    max-width: 1200px;
+}
+
+.ads-header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Ads grid styling */
+.ads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Ad card styling */
+.ad-card {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.ad-card:hover {
+    transform: translateY(-5px);
+}
+
+.ad-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.ad-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.ad-description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* Ad card actions (buttons) */
+.ad-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.ad-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.ad-button:hover {
+    background-color: #0056b3;
+}
+
+.delete-button {
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+/* No ads message */
+.no-ads-message {
+    text-align: center;
+    font-size: 16px;
+    color: #555;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .profile-card {
+        padding: 15px;
+    }
+
+    .profile-header {
+        font-size: 20px;
+    }
+
+    .profile-item {
+        font-size: 14px;
+    }
+
+    .logout-button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
 }

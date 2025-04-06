@@ -1,9 +1,59 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import axios from "axios";
 import "./CreateAd.css";
 
+const TransmissionEnum = {
+  MANUAL: "MT",
+  AUTOMATIC: "AT",
+  SEMI_AUTOMATIC: "SAT",
+  CVT: "CVT",
+  DUAL_CLUTCH: "DCT",
+};
+
+const ColorEnum = {
+  RED: "Красный",
+  GREEN: "Зеленый",
+  BLUE: "Синий",
+  YELLOW: "Желтый",
+  BLACK: "Черный",
+  WHITE: "Белый",
+  PURPLE: "Фиолетовый",
+  ORANGE: "Оранжевый",
+};
+
+const CarModelEnum = {
+  TOYOTA: "Toyota",
+  HONDA: "Honda",
+  BMW: "BMW",
+  MERCEDES: "Mercedes-Benz",
+  FORD: "Ford",
+  AUDI: "Audi",
+  VOLKSWAGEN: "Volkswagen",
+  NISSAN: "Nissan",
+  TESLA: "Tesla",
+  CHEVROLET: "Chevrolet",
+};
+
+const SteeringWheelEnum = {
+  LEFT: "Левый",
+  RIGHT: "Правый",
+};
+
+const isValidUrl = (url) => {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const formReducer = (state, action) => {
+  return { ...state, [action.name]: action.value };
+};
+
 const AdForm = () => {
-  const [formData, setFormData] = useState({
+  const [formData, dispatch] = useReducer(formReducer, {
     name: "",
     model: "",
     year: "",
@@ -17,23 +67,31 @@ const AdForm = () => {
   });
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    dispatch({ name: e.target.name, value: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setSuccessMessage(null);
-
-    const apiUrl = "http://localhost:8000/ads/create";
+    setIsSubmitting(true);
 
     try {
+      if (formData.price <= 0 || formData.mileage < 0 || formData.year < 1886) {
+        setError("Пожалуйста, введите корректные данные.");
+        return;
+      }
+
+      if (!isValidUrl(formData.image_url)) {
+        setError("Пожалуйста, введите корректный URL изображения.");
+        return;
+      }
+
+      const apiUrl = "http://localhost:8000/ads/create";
+
       const newAd = {
         ...formData,
         price: parseInt(formData.price, 10),
@@ -48,31 +106,14 @@ const AdForm = () => {
         return;
       }
 
-      const queryParams = new URLSearchParams(newAd).toString();
-
-      await axios.post(
-        `${apiUrl}?${queryParams}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axios.post(apiUrl, newAd, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       setSuccessMessage("Объявление о машине создано успешно!");
-      setFormData({
-        name: "",
-        model: "",
-        price: "",
-        mileage: "",
-        year: "",
-        transmission: "",
-        description: "",
-        steering_wheel_side: "",
-        color: "",
-        image_url: "",
-      });
+      Object.keys(formData).forEach((key) => dispatch({ name: key, value: "" }));
     } catch (err) {
       console.log(err);
       const errorMessage =
@@ -81,6 +122,8 @@ const AdForm = () => {
           : "Ошибка при создании объявления о машине";
 
       setError(`Ошибка: ${errorMessage}. URL: ${apiUrl}`);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -90,7 +133,9 @@ const AdForm = () => {
       <form className="create-ad-form" onSubmit={handleSubmit}>
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="name" className="form-label">Имя</label>
+            <label htmlFor="name" className="form-label">
+              Имя <span className="required">*</span>
+            </label>
             <input
               id="name"
               type="text"
@@ -103,15 +148,21 @@ const AdForm = () => {
           </div>
           <div className="form-group">
             <label htmlFor="model" className="form-label">Модель</label>
-            <input
+            <select
               id="model"
-              type="text"
               name="model"
               value={formData.model}
               onChange={handleChange}
-              className="form-input"
+              className="form-select"
               required
-            />
+            >
+              <option value="">Модель</option>
+              {Object.entries(CarModelEnum).map(([key, value]) => (
+                <option key={key} value={key}>
+                  {value}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
         <div className="form-row">
@@ -155,41 +206,59 @@ const AdForm = () => {
           </div>
           <div className="form-group">
             <label htmlFor="transmission" className="form-label">Тип трансмиссии</label>
-            <input
+            <select
               id="transmission"
-              type="text"
               name="transmission"
               value={formData.transmission}
               onChange={handleChange}
-              className="form-input"
+              className="form-select"
               required
-            />
+            >
+              <option value="">Тип трансмиссии</option>
+              {Object.entries(TransmissionEnum).map(([key, value]) => (
+                <option key={key} value={key}>
+                  {value}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
         <div className="form-row">
           <div className="form-group">
             <label htmlFor="steering_wheel_side" className="form-label">Сторона руля</label>
-            <input
+            <select
               id="steering_wheel_side"
-              type="text"
               name="steering_wheel_side"
               value={formData.steering_wheel_side}
               onChange={handleChange}
-              className="form-input"
+              className="form-select"
               required
-            />
+            >
+              <option value="">Сторона руля</option>
+              {Object.entries(SteeringWheelEnum).map(([key, value]) => (
+                <option key={key} value={key}>
+                  {value}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="form-group">
             <label htmlFor="color" className="form-label">Цвет</label>
-            <input
+            <select
               id="color"
-              type="text"
               name="color"
               value={formData.color}
               onChange={handleChange}
-              className="form-input"
+              className="form-select"
               required
-            />
+            >
+              <option value="">Цвет</option>
+              {Object.entries(ColorEnum).map(([key, value]) => (
+                <option key={key} value={key}>
+                  {value}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
         <div className="form-group">
@@ -201,6 +270,7 @@ const AdForm = () => {
             onChange={handleChange}
             className="form-input"
             rows="3"
+            placeholder="Введите описание автомобиля"
             required
           />
         </div>
@@ -216,7 +286,9 @@ const AdForm = () => {
             required
           />
         </div>
-        <button type="submit" className="submit-button">Создать объявление</button>
+        <button type="submit" className="submit-button" disabled={isSubmitting}>
+          {isSubmitting ? "Создание..." : "Создать объявление"}
+        </button>
         {error && <p className="error-message">{error}</p>}
         {successMessage && <p className="success-message">{successMessage}</p>}
       </form>

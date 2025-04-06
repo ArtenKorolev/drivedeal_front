@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import apiClient from "../../apiClient"; // Используем apiClient
 import "./AdDetail.css";
 
 const AdDetails = () => {
@@ -12,10 +12,10 @@ const AdDetails = () => {
     useEffect(() => {
         const fetchAdDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/ads/by-id?ad_id=${id}`);
+                const response = await apiClient.get(`/ads/by-id?ad_id=${id}`);
                 setAd(response.data.data);
             } catch (e) {
-                setError(`Ошибка загрузки объявления: ${e}`);
+                setError(`Ошибка загрузки объявления: ${e.message}`);
             } finally {
                 setLoading(false);
             }

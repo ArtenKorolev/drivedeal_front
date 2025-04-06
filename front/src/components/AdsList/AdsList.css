@@ -171,86 +171,139 @@
 
 /* Filter form styles */
 .filter-form {
-  margin-bottom: 20px;
-  padding: 20px;
   background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
 .filter-title {
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 16px;
+  margin-bottom: 15px;
   text-align: center;
+  color: #333;
 }
 
 .filter-row {
   display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
   flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
 }
 
-.filter-input {
+.filter-input,
+.filter-select {
   flex: 1;
+  min-width: 150px;
   padding: 10px;
   font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.filter-button {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #ffffff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 4px;
+.filter-input:focus,
+.filter-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.filter-select {
+  background-color: #fff;
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
-.filter-button:hover {
-  background-color: #0056b3;
+.filter-select option {
+  font-size: 14px;
+  color: #333;
 }
 
+/* Styling for filter buttons */
 .filter-actions {
   display: flex;
-  gap: 16px;
-  justify-content: center;
-  margin-top: 16px;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 .filter-button,
 .reset-button {
-  padding: 12px 20px;
-  font-size: 16px;
+  flex: 1;
+  padding: 10px 20px;
+  font-size: 14px;
   font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.3s ease;
 }
 
-.filter-button {
-  background-color: #007bff;
-  color: #ffffff;
+.reset-button {
+  background-color: #dc3545;
 }
 
 .filter-button:hover {
   background-color: #0056b3;
 }
 
-.reset-button {
-  background-color: #6c757d;
-  color: #ffffff;
+.reset-button:hover {
+  background-color: #c82333;
 }
 
-.reset-button:hover {
-  background-color: #5a6268;
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .filter-row {
+    flex-direction: column;
+  }
+
+  .filter-input,
+  .filter-select {
+    width: 100%;
+  }
+
+  .filter-actions {
+    flex-direction: column;
+  }
+}
+
+/* Pagination styles */
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pagination-button {
+  flex: 1;
+  min-width: 100px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.pagination-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  font-size: 16px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .filter-row {
+    flex-direction: column;
+  }
+
+  .filter-input,
+  .filter-select {
+    width: 100%;
+  }
 }

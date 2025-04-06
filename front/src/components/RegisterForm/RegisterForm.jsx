@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import apiClient from "../../apiClient"; // Import apiClient
 import "./RegisterForm.css";
 
 const RegistrationForm = () => {
@@ -16,21 +17,16 @@ const RegistrationForm = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await apiClient.post("/auth/register", data);
 
-      const result = await response.json();
-
-      if (result.success) {
-        const token = result.access_token;
-        localStorage.setItem("accessToken", `Bearer ${token}`);
+      if (response.status === 200) {
+        const { access_token: token, refresh_token: ref } = response.data;
+        localStorage.setItem("authToken", token);
+        localStorage.setItem("refreshToken", ref);
+        window.location.reload();
         alert("Регистрация успешна!");
       } else {
+        console.log(response);
         alert("Ошибка регистрации. Пожалуйста, попробуйте снова.");
       }
     } catch (error) {

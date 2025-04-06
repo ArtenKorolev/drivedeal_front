@@ -1,130 +1,124 @@
-/* General container styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .create-ad-container {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #f0f0f0;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Title styles */
 .create-ad-title {
   text-align: center;
-  font-size: 26px;
+  font-size: 24px;
   font-weight: bold;
-  color: #333333;
   margin-bottom: 20px;
-  font-family: 'Arial', sans-serif;
+  color: #333;
 }
 
-/* Form styles */
+/* Стили для формы */
 .create-ad-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  align-items: center;
 }
 
-/* Grouping input fields into rows */
+/* Ряды формы */
 .form-row {
   display: flex;
-  gap: 16px;
-  width: 100%;
-  justify-content: space-between;
   flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
-/* Form group styles */
+/* Группы формы */
 .form-group {
+  flex: 1;
+  min-width: 250px;
+  max-width: 100%;
+  /* Ограничение ширины */
   display: flex;
   flex-direction: column;
-  flex: 1;
-  min-width: 200px;
-  max-width: 300px;
+  gap: 10px;
+  box-sizing: border-box;
+  /* Учет padding и border в размерах */
 }
 
-/* Label styles */
-.form-label {
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 4px;
-  color: #555555;
-}
-
-/* Input styles */
-.form-input {
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+/* Поля ввода и выпадающие списки */
+.form-input,
+.form-select,
+textarea {
   width: 100%;
-  background-color: #f9f9f9;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.form-input:focus {
+  /* Поля ввода занимают всю ширину родителя */
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Submit button styles */
+.form-input:focus,
+.form-select:focus,
+textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Кнопки */
 .submit-button {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 20px auto;
   padding: 12px 20px;
   font-size: 16px;
   font-weight: bold;
-  color: #ffffff;
+  color: #fff;
   background-color: #007bff;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  width: 200px;
+  transition: background-color 0.3s ease;
 }
 
 .submit-button:hover {
   background-color: #0056b3;
-  transform: translateY(-2px);
 }
 
-.submit-button:active {
-  transform: translateY(0);
+.submit-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
-/* Error and success messages */
+/* Сообщения об ошибках и успехе */
 .error-message {
-  color: #d9534f;
+  color: #dc3545;
   font-size: 14px;
   text-align: center;
+  margin-top: 10px;
 }
 
 .success-message {
-  color: #5cb85c;
+  color: #28a745;
   font-size: 14px;
   text-align: center;
+  margin-top: 10px;
 }
 
-/* Add spacing to the right column */
-.form-row .form-group:last-child {
-  margin-right: 16px;
-  /* Add a right margin to the last column */
-}
-
-/* Responsive adjustments */
+/* Адаптивность */
 @media (max-width: 768px) {
-  .create-ad-container {
-    padding: 16px;
-  }
-
   .form-row {
     flex-direction: column;
   }
 
   .form-group {
-    max-width: 100%;
+    width: 100%;
   }
 
   .submit-button {

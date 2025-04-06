@@ -3,10 +3,46 @@ import { useNavigate } from "react-router-dom";
 import apiClient from "../../apiClient"; // Import apiClient
 import "./AdsList.css";
 
+// Enums for dropdown options
+const TransmissionEnum = {
+  MANUAL: "MT",
+  AUTOMATIC: "AT",
+  SEMI_AUTOMATIC: "SAT",
+  CVT: "CVT",
+  DUAL_CLUTCH: "DCT",
+};
+
+const ColorEnum = {
+  RED: "Красный",
+  GREEN: "Зеленый",
+  BLUE: "Синий",
+  YELLOW: "Желтый",
+  BLACK: "Черный",
+  WHITE: "Белый",
+  PURPLE: "Фиолетовый",
+  ORANGE: "Оранжевый",
+};
+
+const CarModelEnum = {
+  TOYOTA: "Toyota",
+  HONDA: "Honda",
+  BMW: "BMW",
+  MERCEDES: "Mercedes-Benz",
+  FORD: "Ford",
+  AUDI: "Audi",
+  VOLKSWAGEN: "Volkswagen",
+  NISSAN: "Nissan",
+  TESLA: "Tesla",
+  CHEVROLET: "Chevrolet",
+};
+
 const AdsList = () => {
-  const [ads, setAds] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [adsData, setAdsData] = useState({
+    ads: [],
+    totalPages: 1,
+    loading: true,
+    error: null,
+  });
   const [filters, setFilters] = useState({
     name: "",
     min_price: "",
@@ -20,22 +56,48 @@ const AdsList = () => {
     steering_wheel_side: "",
     model: "",
   });
+  const [currentPage, setCurrentPage] = useState(1); // Current page state
+  const [isFiltered, setIsFiltered] = useState(false); // Track if filters are applied
   const navigate = useNavigate();
 
-  const fetchAds = async (url) => {
+  const fetchAds = async (page = 1, filters = null) => {
     try {
-      const response = await apiClient.get(url);
-      setAds(response.data.data);
+      setAdsData((prev) => ({ ...prev, loading: true, error: null }));
+
+      // Формируем параметры запроса
+      const queryParams = new URLSearchParams(
+        filters
+          ? { ...filters } // Если есть фильтры, отправляем только их
+          : { page } // Если фильтров нет, отправляем только страницу
+      ).toString();
+
+      const endpoint = filters
+        ? `/ads/filtered?${queryParams}` // Эндпоинт для фильтрованных данных
+        : `/ads/page?page=${page}`; // Эндпоинт для пагинации
+
+      const response = await apiClient.get(endpoint);
+      console.log(response);
+
+      setAdsData({
+        ads: response.data.data.ads || [],
+        totalPages: response.data.data.total_pages || 1,
+        loading: false,
+        error: null,
+      });
     } catch (e) {
-      setError(`Ошибка загрузки объявлений: ${e}`);
-    } finally {
-      setLoading(false);
+      setAdsData((prev) => ({
+        ...prev,
+        loading: false,
+        error: "Ошибка загрузки данных.",
+      }));
     }
   };
 
   useEffect(() => {
-    fetchAds("/ads/all");
-  }, []);
+    if (!isFiltered) {
+      fetchAds(currentPage); // Загружаем данные с пагинацией, если фильтры не применены
+    }
+  }, [currentPage, isFiltered]);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -45,19 +107,40 @@ const AdsList = () => {
     }));
   };
 
+  const mapFiltersToValues = (filters) => {
+    const mappedFilters = { ...filters };
+
+    // Map color, transmission, and other enums to their values
+    if (mappedFilters.color) {
+      mappedFilters.color = ColorEnum[mappedFilters.color];
+    }
+    if (mappedFilters.transmission) {
+      mappedFilters.transmission = TransmissionEnum[mappedFilters.transmission];
+    }
+    if (mappedFilters.steering_wheel_side) {
+      mappedFilters.steering_wheel_side =
+        SteeringWheelEnum[mappedFilters.steering_wheel_side];
+    }
+    if (mappedFilters.model) {
+      mappedFilters.model = CarModelEnum[mappedFilters.model];
+    }
+
+    return mappedFilters;
+  };
+
   const handleFilterSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
+    setIsFiltered(true); // Устанавливаем флаг фильтрации
 
-    const queryParams = new URLSearchParams(
-      Object.entries(filters).reduce((acc, [key, value]) => {
-        if (value) acc[key] = value;
-        return acc;
-      }, {})
-    ).toString();
+    // Удаляем пустые значения из объекта фильтров
+    const activeFilters = Object.fromEntries(
+      Object.entries(filters).filter(([_, value]) => value !== "")
+    );
 
-    fetchAds(`/ads/filtered?${queryParams}`);
+    // Преобразуем ключи в значения
+    const mappedFilters = mapFiltersToValues(activeFilters);
+
+    await fetchAds(null, mappedFilters); // Отправляем запрос с фильтрами (без страницы)
   };
 
   const handleResetFilters = () => {
@@ -74,11 +157,19 @@ const AdsList = () => {
       steering_wheel_side: "",
       model: "",
     });
-    fetchAds("/ads/all");
+    setCurrentPage(1); // Reset to the first page
+    setIsFiltered(false); // Reset to unfiltered state
+    fetchAds(1); // Fetch unfiltered ads
   };
 
-  if (loading) return <p className="loading-message">Загрузка объявлений...</p>;
-  if (error) return <p className="error-message">{error}</p>;
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= adsData.totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  if (adsData.loading) return <div className="loading-spinner">Загрузка...</div>;
+  if (adsData.error) return <p className="error-message">{adsData.error}</p>;
 
   return (
     <div className="ads-list-container">
@@ -145,38 +236,45 @@ const AdsList = () => {
           />
         </div>
         <div className="filter-row">
-          <input
-            type="text"
+          <select
             name="color"
-            placeholder="Цвет"
             value={filters.color}
             onChange={handleFilterChange}
-            className="filter-input"
-          />
-          <input
-            type="text"
+            className="filter-select"
+          >
+            <option value="">Цвет</option>
+            {Object.entries(ColorEnum).map(([key, value]) => (
+              <option key={key} value={key}>
+                {value}
+              </option>
+            ))}
+          </select>
+          <select
             name="transmission"
-            placeholder="Трансмиссия"
             value={filters.transmission}
             onChange={handleFilterChange}
-            className="filter-input"
-          />
-          <input
-            type="text"
-            name="steering_wheel_side"
-            placeholder="Сторона руля"
-            value={filters.steering_wheel_side}
-            onChange={handleFilterChange}
-            className="filter-input"
-          />
-          <input
-            type="text"
+            className="filter-select"
+          >
+            <option value="">Трансмиссия</option>
+            {Object.entries(TransmissionEnum).map(([key, value]) => (
+              <option key={key} value={key}>
+                {value}
+              </option>
+            ))}
+          </select>
+          <select
             name="model"
-            placeholder="Модель"
             value={filters.model}
             onChange={handleFilterChange}
-            className="filter-input"
-          />
+            className="filter-select"
+          >
+            <option value="">Модель</option>
+            {Object.entries(CarModelEnum).map(([key, value]) => (
+              <option key={key} value={key}>
+                {value}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="filter-actions">
           <button type="submit" className="filter-button">
@@ -193,13 +291,13 @@ const AdsList = () => {
       </form>
 
       <div className="ads-list">
-        {ads.length > 0 ? (
-          ads.map((ad) => (
+        {adsData.ads.length > 0 ? (
+          adsData.ads.map((ad) => (
             <article key={ad.id} className="ad-card">
               <img
                 className="ad-card__image"
-                src={ad.car.image_url}
-                alt={ad.car.name}
+                src={ad.car.image_url || "https://via.placeholder.com/150"}
+                alt={ad.car.name || "Без названия"}
               />
               <div className="ad-card__content">
                 <h2 className="ad-card__title">
@@ -228,6 +326,28 @@ const AdsList = () => {
           <p className="no-ads-message">Нет доступных объявлений.</p>
         )}
       </div>
+
+      {!isFiltered && (
+        <div className="pagination">
+          <button
+            className="pagination-button"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Назад
+          </button>
+          <span className="pagination-info">
+            Страница {currentPage} из {adsData.totalPages}
+          </span>
+          <button
+            className="pagination-button"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === adsData.totalPages}
+          >
+            Вперед
+          </button>
+        </div>
+      )}
     </div>
   );
 };
