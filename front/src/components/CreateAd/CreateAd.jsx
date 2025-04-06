@@ -1,5 +1,5 @@
 import { useReducer, useState } from "react";
-import axios from "axios";
+import apiClient from "../../apiClient"; // Используем apiClient
 import "./CreateAd.css";
 
 const TransmissionEnum = {
@@ -90,8 +90,6 @@ const AdForm = () => {
         return;
       }
 
-      const apiUrl = "http://localhost:8000/ads/create";
-
       const newAd = {
         ...formData,
         price: parseInt(formData.price, 10),
@@ -106,7 +104,7 @@ const AdForm = () => {
         return;
       }
 
-      await axios.post(apiUrl, newAd, {
+      await apiClient.post("/ads/create", newAd, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -121,7 +119,7 @@ const AdForm = () => {
           ? err.response.data.detail || "Что-то пошло не так"
           : "Ошибка при создании объявления о машине";
 
-      setError(`Ошибка: ${errorMessage}. URL: ${apiUrl}`);
+      setError(`Ошибка: ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }
