@@ -90,11 +90,15 @@ const AdForm = () => {
         return;
       }
 
+      // Преобразуем ключи в текстовые значения
       const newAd = {
         ...formData,
         price: parseInt(formData.price, 10),
         mileage: parseInt(formData.mileage, 10),
         year: parseInt(formData.year, 10),
+        transmission: TransmissionEnum[formData.transmission],
+        color: ColorEnum[formData.color],
+        steering_wheel_side: SteeringWheelEnum[formData.steering_wheel_side],
       };
 
       const token = localStorage.getItem("authToken");
@@ -108,7 +112,7 @@ const AdForm = () => {
       const queryParams = new URLSearchParams(newAd).toString();
 
       // Отправляем запрос с query-параметрами
-      await apiClient.get(`/ads/create?${queryParams}`, {
+      await apiClient.post(`/ads/create?${queryParams}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
