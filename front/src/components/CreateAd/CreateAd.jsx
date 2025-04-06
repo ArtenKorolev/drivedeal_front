@@ -104,7 +104,11 @@ const AdForm = () => {
         return;
       }
 
-      await apiClient.post("/ads/create", newAd, {
+      // Преобразуем параметры в строку query
+      const queryParams = new URLSearchParams(newAd).toString();
+
+      // Отправляем запрос с query-параметрами
+      await apiClient.get(`/ads/create?${queryParams}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
