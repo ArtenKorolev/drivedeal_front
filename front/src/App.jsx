@@ -50,7 +50,7 @@ function App() {
 
   if (loading) {
     // Show a loading message while fetching the username
-    return <p>Loading...</p>;
+    return <p>Загрузка...</p>;
   }
 
   return (
