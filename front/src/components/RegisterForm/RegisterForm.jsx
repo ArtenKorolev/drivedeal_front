@@ -9,7 +9,7 @@ const RegistrationForm = () => {
   const [errors, setErrors] = useState({ username: "", phone: "" });
 
   const validatePhoneNumber = (phone) => {
-    const phoneRegex = /^\+?[0-9]*$/; // Допускает только "+" в начале и цифры
+    const phoneRegex = /^\+7\d{10}$/; // Шаблон для номера РФ: +7XXXXXXXXXX (11 цифр)
     return phoneRegex.test(phone);
   };
 
@@ -26,7 +26,7 @@ const RegistrationForm = () => {
     const usernameIsValid = validateUsername(username);
 
     if (!phoneIsValid) {
-      setErrors((prev) => ({ ...prev, phone: "Номер телефона должен содержать только цифры и начинаться с '+'." }));
+      setErrors((prev) => ({ ...prev, phone: "Номер телефона должен быть в формате +7XXXXXXXXXX." }));
       return;
     } else {
       setErrors((prev) => ({ ...prev, phone: "" }));
@@ -66,11 +66,15 @@ const RegistrationForm = () => {
 
   const handlePhoneChange = (e) => {
     const value = e.target.value;
-    if (validatePhoneNumber(value)) {
+    if (validatePhoneNumber(value) || value === "") {
       setPhoneNumber(value);
       setErrors((prev) => ({ ...prev, phone: "" }));
     } else {
-      setErrors((prev) => ({ ...prev, phone: "Поле может содержать только цифры и '+' первым символом." }));
+      setPhoneNumber(value); // Обновляем значение, чтобы пользователь видел ввод
+      setErrors((prev) => ({
+        ...prev,
+        phone: "Номер телефона должен быть в формате +7XXXXXXXXXX.",
+      }));
     }
   };
 
@@ -116,9 +120,9 @@ const RegistrationForm = () => {
             id="password"
             type="password"
             value={password}
+
             onChange={(e) => setPassword(e.target.value)}
             required
-
             className="form-input"
             placeholder="Введите пароль"
           />
