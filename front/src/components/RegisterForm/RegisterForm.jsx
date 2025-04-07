@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import apiClient from "../../apiClient"; // Import apiClient
 import "./RegisterForm.css";
 
@@ -6,9 +6,38 @@ const RegistrationForm = () => {
   const [username, setUsername] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({ username: "", phone: "" });
+
+  const validatePhoneNumber = (phone) => {
+    const phoneRegex = /^\+?[0-9]*$/; // Допускает только "+" в начале и цифры
+    return phoneRegex.test(phone);
+  };
+
+  const validateUsername = (username) => {
+    const usernameRegex = /[a-zA-Z]/; // Проверяет, содержит ли хотя бы одну букву
+    return usernameRegex.test(username);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Валидация полей
+    const phoneIsValid = validatePhoneNumber(phoneNumber);
+    const usernameIsValid = validateUsername(username);
+
+    if (!phoneIsValid) {
+      setErrors((prev) => ({ ...prev, phone: "Номер телефона должен содержать только цифры и начинаться с '+'." }));
+      return;
+    } else {
+      setErrors((prev) => ({ ...prev, phone: "" }));
+    }
+
+    if (!usernameIsValid) {
+      setErrors((prev) => ({ ...prev, username: "Логин должен содержать хотя бы одну букву." }));
+      return;
+    } else {
+      setErrors((prev) => ({ ...prev, username: "" }));
+    }
 
     const data = {
       username,
@@ -35,6 +64,16 @@ const RegistrationForm = () => {
     }
   };
 
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+    if (validatePhoneNumber(value)) {
+      setPhoneNumber(value);
+      setErrors((prev) => ({ ...prev, phone: "" }));
+    } else {
+      setErrors((prev) => ({ ...prev, phone: "Поле может содержать только цифры и '+' первым символом." }));
+    }
+  };
+
   return (
     <div className="register-container">
       <form className="register-form" onSubmit={handleSubmit}>
@@ -52,6 +91,7 @@ const RegistrationForm = () => {
             className="form-input"
             placeholder="Введите логин"
           />
+          {errors.username && <p className="error-message">{errors.username}</p>}
         </div>
         <div className="form-group">
           <label htmlFor="phone" className="form-label">
@@ -61,11 +101,12 @@ const RegistrationForm = () => {
             id="phone"
             type="tel"
             value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            onChange={handlePhoneChange}
             required
             className="form-input"
             placeholder="Введите номер телефона"
           />
+          {errors.phone && <p className="error-message">{errors.phone}</p>}
         </div>
         <div className="form-group">
           <label htmlFor="password" className="form-label">
@@ -77,6 +118,7 @@ const RegistrationForm = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+
             className="form-input"
             placeholder="Введите пароль"
           />
