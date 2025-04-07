@@ -1,23 +1,17 @@
-/* General navbar styles */
 .nav-bar {
   display: flex;
   justify-content: space-between;
-  /* Space between logo and buttons */
   align-items: center;
-  /* Center items vertically */
   padding: 10px 20px;
-  /* Adjust padding for a balanced look */
   background-color: #007bff;
-  /* Primary blue color */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
   margin-bottom: 20px;
-  /* Add spacing below the navbar */
+  flex-wrap: wrap; /* Разрешить перенос элементов */
 }
 
-/* Logo styles */
 .logo {
   font-size: 24px;
   font-weight: bold;
@@ -33,12 +27,11 @@
   color: #d9d9d9;
 }
 
-/* Navigation buttons */
 .nav-buttons {
   display: flex;
-  /* Arrange buttons in a row */
-  gap: 16px;
-  /* Add spacing between buttons */
+  flex-direction: row; /* Кнопки горизонтально по умолчанию */
+  gap: 16px; /* Пространство между кнопками */
+  flex-shrink: 0; /* Запрещаем сдавливание кнопок */
 }
 
 .nav-link {
@@ -50,6 +43,8 @@
   border-radius: 4px;
   transition: background-color 0.2s ease, color 0.2s ease;
   text-align: center;
+  white-space: nowrap; /* Запрет на перенос текста */
+  box-sizing: border-box; /* Учитываем отступы */
 }
 
 .nav-link:hover {
@@ -57,10 +52,8 @@
   color: #ffffff;
 }
 
-/* Logout button */
 .logout-button {
   background-color: #ff4d4d;
-  /* Red for logout */
   color: #ffffff;
   border: none;
   padding: 8px 12px;
@@ -80,26 +73,20 @@
   transform: translateY(0);
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
   .nav-bar {
-    flex-direction: column;
-    /* Stack logo and buttons vertically on smaller screens */
-    align-items: center;
-    padding: 15px 0;
+    padding: 15px 10px;
   }
 
   .nav-buttons {
-    flex-direction: row;
-    /* Keep buttons in a horizontal row */
-    gap: 16px;
-    /* Maintain spacing between buttons */
+    flex-direction: row; /* Гарантируем горизонтальную ориентацию */
+    gap: 8px; /* Уменьшаем расстояние между кнопками */
   }
 
   .nav-link,
   .logout-button {
-    width: auto;
-    /* Ensure buttons don't stretch to full width */
+    padding: 6px 8px; /* Компактные кнопки */
+    font-size: 14px; /* Меньший шрифт */
     text-align: center;
   }
 }
