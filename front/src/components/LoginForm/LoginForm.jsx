@@ -18,6 +18,7 @@ const LoginForm = ({ onLogin }) => {
     } catch (err) {
       console.error("Ошибка при входе:", err);
       setError("Неверный логин или пароль.");
+      navigate("/login");
     }
   };
 
