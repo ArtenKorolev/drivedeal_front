@@ -90,14 +90,16 @@
   }
 
   .nav-buttons {
-    flex-direction: column;
-    /* Stack buttons vertically */
-    gap: 12px;
+    flex-direction: row;
+    /* Keep buttons in a horizontal row */
+    gap: 16px;
+    /* Maintain spacing between buttons */
   }
 
   .nav-link,
   .logout-button {
-    width: 100%;
+    width: auto;
+    /* Ensure buttons don't stretch to full width */
     text-align: center;
   }
 }
