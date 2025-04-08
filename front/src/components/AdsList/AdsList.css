@@ -307,3 +307,26 @@
     width: 100%;
   }
 }
+
+/* Toggle filters button styles */
+.toggle-filters-button {
+  background-color: #007bff; /* Синий цвет кнопки */
+  color: #ffffff; /* Белый текст */
+  border: none; /* Убираем границу */
+  padding: 10px 20px; /* Внутренние отступы */
+  font-size: 16px; /* Размер текста */
+  font-weight: 500; /* Полужирный текст */
+  border-radius: 4px; /* Скругленные углы */
+  cursor: pointer; /* Указатель мыши при наведении */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Анимация */
+}
+
+.toggle-filters-button:hover {
+  background-color: #0056b3; /* Темно-синий цвет при наведении */
+  transform: translateY(-2px); /* Легкий подъем кнопки */
+}
+
+.toggle-filters-button:active {
+  background-color: #003f7f; /* Еще темнее при нажатии */
+  transform: translateY(0); /* Возвращение в исходное положение */
+}
