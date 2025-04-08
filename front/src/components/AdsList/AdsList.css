@@ -270,24 +270,43 @@
   }
 }
 
-/* Pagination styles */
 .pagination {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  align-items: center;
+  gap: 8px; /* Пространство между кнопками */
+  margin-top: 20px;
 }
 
 .pagination-button {
-  flex: 1;
-  min-width: 100px;
-  padding: 10px;
+  padding: 10px 16px;
+  background-color: #f1f1f1;
+  color: #007bff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
   font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.pagination-button:hover {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.pagination-button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #0056b3;
 }
 
 .pagination-button:disabled {
-  background-color: #ccc;
+  background-color: #e9ecef;
+  color: #6c757d;
   cursor: not-allowed;
+  border-color: #ccc;
 }
 
 .pagination-info {
@@ -305,6 +324,16 @@
   .filter-input,
   .filter-select {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagination-button {
+    padding: 8px 12px; /* Уменьшение размера */
+    font-size: 12px; /* Снижение размера текста */
+  }
+  .pagination {
+    gap: 6px; /* Сужение расстояния между кнопками */
   }
 }
 
