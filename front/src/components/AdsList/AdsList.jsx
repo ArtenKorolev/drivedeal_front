@@ -58,6 +58,7 @@ const AdsList = () => {
   });
   const [currentPage, setCurrentPage] = useState(1); // Current page state
   const [isFiltered, setIsFiltered] = useState(false); // Track if filters are applied
+  const [showFilters, setShowFilters] = useState(false); // Track if filters are visible
   const navigate = useNavigate();
 
   const fetchAds = async (page = 1, filters = null) => {
@@ -107,27 +108,6 @@ const AdsList = () => {
     }));
   };
 
-  const mapFiltersToValues = (filters) => {
-    const mappedFilters = { ...filters };
-
-    // Map color, transmission, and other enums to their values
-    if (mappedFilters.color) {
-      mappedFilters.color = ColorEnum[mappedFilters.color];
-    }
-    if (mappedFilters.transmission) {
-      mappedFilters.transmission = TransmissionEnum[mappedFilters.transmission];
-    }
-    if (mappedFilters.steering_wheel_side) {
-      mappedFilters.steering_wheel_side =
-        SteeringWheelEnum[mappedFilters.steering_wheel_side];
-    }
-    if (mappedFilters.model) {
-      mappedFilters.model = CarModelEnum[mappedFilters.model];
-    }
-
-    return mappedFilters;
-  };
-
   const handleFilterSubmit = async (e) => {
     e.preventDefault();
     setIsFiltered(true); // Устанавливаем флаг фильтрации
@@ -137,11 +117,9 @@ const AdsList = () => {
       Object.entries(filters).filter(([_, value]) => value !== "")
     );
 
-    // Преобразуем ключи в значения
-    const mappedFilters = mapFiltersToValues(activeFilters);
-
-    await fetchAds(null, mappedFilters); // Отправляем запрос с фильтрами (без страницы)
+    await fetchAds(null, activeFilters); // Отправляем запрос с фильтрами (без страницы)
   };
+
   const handleResetFilters = () => {
     setFilters({
       name: "",
@@ -167,127 +145,137 @@ const AdsList = () => {
     }
   };
 
+  const toggleFilters = () => {
+    setShowFilters((prev) => !prev); // Toggle visibility of filters
+  };
+
   if (adsData.loading) return <div className="loading-spinner">Загрузка...</div>;
   if (adsData.error) return <p className="error-message">{adsData.error}</p>;
 
   return (
     <div className="ads-list-container">
-      <form className="filter-form" onSubmit={handleFilterSubmit}>
-        <h2 className="filter-title">Фильтр объявлений</h2>
-        <div className="filter-row">
-          <input
-            type="text"
-            name="name"
-            placeholder="Название"
-            value={filters.name}
-            onChange={handleFilterChange}
-            className="filter-input"
-          />
-          <input
-            type="number"
-            name="min_price"
-            placeholder="Мин. цена"
-            value={filters.min_price}
-            onChange={handleFilterChange}
-            className="filter-input"
-          />
-          <input
-            type="number"
-            name="max_price"
-            placeholder="Макс. цена"
-            value={filters.max_price}
-            onChange={handleFilterChange}
-            className="filter-input"
-          />
-        </div>
-        <div className="filter-row">
-          <input
-            type="number"
-            name="min_year"
-            placeholder="Мин. год"
-            value={filters.min_year}
-            onChange={handleFilterChange}
-            className="filter-input"
-          />
-          <input
-            type="number"
-            name="max_year"
-            placeholder="Макс. год"
-            value={filters.max_year}
-            onChange={handleFilterChange}
-            className="filter-input"
-          />
-          <input
-            type="number"
-            name="min_mileage"
-            placeholder="Мин. пробег"
-            value={filters.min_mileage}
-            onChange={handleFilterChange}
-            className="filter-input"
-          />
-          <input
-            type="number"
-            name="max_mileage"
-            placeholder="Макс. пробег"
-            value={filters.max_mileage}
-            onChange={handleFilterChange}
-            className="filter-input"
-          />
-        </div>
-        <div className="filter-row">
-          <select
-            name="color"
-            value={filters.color}
-            onChange={handleFilterChange}
-            className="filter-select"
-          >
-            <option value="">Цвет</option>
-            {Object.entries(ColorEnum).map(([key, value]) => (
-              <option key={key} value={key}>
-                {value}
-              </option>
-            ))}
-          </select>
-          <select
-            name="transmission"
-            value={filters.transmission}
-            onChange={handleFilterChange}
-            className="filter-select"
-          >
-            <option value="">Трансмиссия</option>
-            {Object.entries(TransmissionEnum).map(([key, value]) => (
-              <option key={key} value={key}>
-                {value}
-              </option>
-            ))}
-          </select>
-          <select
-            name="model"
-            value={filters.model}
-            onChange={handleFilterChange}
-            className="filter-select"
-          >
-            <option value="">Модель</option>
-            {Object.entries(CarModelEnum).map(([key, value]) => (
-              <option key={key} value={key}>
-                {value}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="filter-actions">
-          <button type="submit" className="filter-button">
-            Найти
-          </button>
-          <button
-            type="button"
-            className="reset-button"
-            onClick={handleResetFilters}
-          >
-            Сбросить
-          </button>
-        </div>
-      </form>
+      <button className="toggle-filters-button" onClick={toggleFilters}>
+        {showFilters ? "Скрыть фильтры" : "Показать фильтры"}
+      </button>
+
+      {showFilters && (
+        <form className="filter-form" onSubmit={handleFilterSubmit}>
+          <h2 className="filter-title">Фильтр объявлений</h2>
+          <div className="filter-row">
+            <input
+              type="text"
+              name="name"
+              placeholder="Название"
+              value={filters.name}
+              onChange={handleFilterChange}
+              className="filter-input"
+            />
+            <input
+              type="number"
+              name="min_price"
+              placeholder="Мин. цена"
+              value={filters.min_price}
+              onChange={handleFilterChange}
+              className="filter-input"
+            />
+            <input
+              type="number"
+              name="max_price"
+              placeholder="Макс. цена"
+              value={filters.max_price}
+              onChange={handleFilterChange}
+              className="filter-input"
+            />
+          </div>
+          <div className="filter-row">
+            <input
+              type="number"
+              name="min_year"
+              placeholder="Мин. год"
+              value={filters.min_year}
+              onChange={handleFilterChange}
+              className="filter-input"
+            />
+            <input
+              type="number"
+              name="max_year"
+              placeholder="Макс. год"
+              value={filters.max_year}
+              onChange={handleFilterChange}
+              className="filter-input"
+            />
+            <input
+              type="number"
+              name="min_mileage"
+              placeholder="Мин. пробег"
+              value={filters.min_mileage}
+              onChange={handleFilterChange}
+              className="filter-input"
+            />
+            <input
+              type="number"
+              name="max_mileage"
+              placeholder="Макс. пробег"
+              value={filters.max_mileage}
+              onChange={handleFilterChange}
+              className="filter-input"
+            />
+          </div>
+          <div className="filter-row">
+            <select
+              name="color"
+              value={filters.color}
+              onChange={handleFilterChange}
+              className="filter-select"
+            >
+              <option value="">Цвет</option>
+              {Object.entries(ColorEnum).map(([key, value]) => (
+                <option key={key} value={key}>
+                  {value}
+                </option>
+              ))}
+            </select>
+            <select
+              name="transmission"
+              value={filters.transmission}
+              onChange={handleFilterChange}
+              className="filter-select"
+            >
+              <option value="">Трансмиссия</option>
+              {Object.entries(TransmissionEnum).map(([key, value]) => (
+                <option key={key} value={key}>
+                  {value}
+                </option>
+              ))}
+            </select>
+            <select
+              name="model"
+              value={filters.model}
+              onChange={handleFilterChange}
+              className="filter-select"
+            >
+              <option value="">Модель</option>
+              {Object.entries(CarModelEnum).map(([key, value]) => (
+                <option key={key} value={key}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="filter-actions">
+            <button type="submit" className="filter-button">
+              Найти
+            </button>
+            <button
+              type="button"
+              className="reset-button"
+              onClick={handleResetFilters}
+            >
+              Сбросить
+            </button>
+          </div>
+        </form>
+      )}
 
       <div className="ads-list">
         {adsData.ads.length > 0 ? (
