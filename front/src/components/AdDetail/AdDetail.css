@@ -7,6 +7,7 @@
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .details-button:hover {
@@ -29,12 +30,14 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  flex-wrap: wrap; /* Adjust header to wrap content on smaller screens */
 }
 
 .ad-details-title {
   font-size: 24px;
   font-weight: bold;
   color: #333;
+  margin-bottom: 8px; /* Added spacing for stacked layout on mobile */
 }
 
 .ad-details-price {
@@ -49,6 +52,7 @@
   flex-wrap: wrap;
   gap: 16px;
   margin-bottom: 24px;
+  justify-content: center;
 }
 
 .ad-details-image {
@@ -64,6 +68,7 @@
   flex: 1 1 300px;
   font-size: 16px;
   color: #555;
+  max-width: 100%; /* Ensure it doesn’t overflow on smaller screens */
 }
 
 .ad-details-info p {
@@ -104,4 +109,52 @@
   text-align: center;
   font-size: 18px;
   color: #555;
+}
+
+/* Media Queries for Adaptive Design */
+
+/* Tablet and smaller devices */
+@media (max-width: 768px) {
+  .ad-details-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ad-details-image {
+    max-width: 100%; /* Make image take the full width of the container */
+    height: auto;   /* Maintain aspect ratio */
+  }
+
+  .ad-details-info {
+    max-width: 100%; /* Ensure there’s full width on smaller screens */
+  }
+}
+
+/* Phones and smaller devices */
+@media (max-width: 480px) {
+  .ad-details-header {
+    flex-direction: column; /* Stack title and price vertically */
+    align-items: flex-start; /* Align content to the left */
+  }
+
+  .ad-details-title {
+    font-size: 20px; /* Adjust font size for smaller screens */
+  }
+
+  .ad-details-price {
+    font-size: 18px; /* Adjust font size for smaller screens */
+  }
+
+  .ad-details-content {
+    gap: 12px; /* Reduce gap between elements on smaller screens */
+  }
+
+  .ad-details-image {
+    border-radius: 4px; /* Slightly reduce border radius for smaller viewports */
+  }
+
+  .details-button {
+    font-size: 12px; /* Reduce button size for smaller screens */
+    padding: 6px 12px;
+  }
 }
