@@ -80,7 +80,7 @@ const AdForm = () => {
     setIsSubmitting(true);
 
     try {
-      if (formData.price <= 0 || formData.mileage < 0 || formData.year < 1886) {
+      if (formData.price <= 0 || formData.mileage < 0 || formData.year < 1886 || formData.year > new Date().getFullYear()) {
         setError("Пожалуйста, введите корректные данные.");
         return;
       }
@@ -140,7 +140,7 @@ const AdForm = () => {
         <div className="form-row">
           <div className="form-group">
             <label htmlFor="name" className="form-label">
-              Имя <span className="required">*</span>
+              Имя
             </label>
             <input
               id="name"
