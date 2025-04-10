@@ -104,7 +104,7 @@ const AdForm = () => {
       const token = localStorage.getItem("authToken");
 
       if (!token) {
-        setError("Токен авторизации отсутствует. Пожалуйста, войдите в систему.");
+        setError("Пожалуйста, зайдите в аккаунт.");
         return;
       }
 
@@ -140,7 +140,7 @@ const AdForm = () => {
         <div className="form-row">
           <div className="form-group">
             <label htmlFor="name" className="form-label">
-              Имя
+              Модель
             </label>
             <input
               id="name"
@@ -153,7 +153,7 @@ const AdForm = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="model" className="form-label">Модель</label>
+            <label htmlFor="model" className="form-label">Марка</label>
             <select
               id="model"
               name="model"
@@ -162,7 +162,7 @@ const AdForm = () => {
               className="form-select"
               required
             >
-              <option value="">Модель</option>
+              <option value="">Марка</option>
               {Object.entries(CarModelEnum).map(([key, value]) => (
                 <option key={key} value={key}>
                   {value}
