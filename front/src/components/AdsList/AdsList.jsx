@@ -117,7 +117,17 @@ const AdsList = () => {
       Object.entries(filters).filter(([_, value]) => value !== "")
     );
 
-    await fetchAds(null, activeFilters); // Отправляем запрос с фильтрами (без страницы)
+    // Преобразуем ключи в значения для отправки на бэкэнд
+    const mappedFilters = {
+      ...activeFilters,
+      transmission: activeFilters.transmission
+        ? TransmissionEnum[activeFilters.transmission]
+        : undefined,
+      color: activeFilters.color ? ColorEnum[activeFilters.color] : undefined,
+      model: activeFilters.model ? CarModelEnum[activeFilters.model] : undefined,
+    };
+
+    await fetchAds(null, mappedFilters); // Отправляем запрос с преобразованными фильтрами
   };
 
   const handleResetFilters = () => {
