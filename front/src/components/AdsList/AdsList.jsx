@@ -118,14 +118,20 @@ const AdsList = () => {
     );
 
     // Преобразуем ключи в значения для отправки на бэкэнд
-    const mappedFilters = {
-      ...activeFilters,
-      transmission: activeFilters.transmission
-        ? TransmissionEnum[activeFilters.transmission]
-        : undefined,
-      color: activeFilters.color ? ColorEnum[activeFilters.color] : undefined,
-      model: activeFilters.model ? CarModelEnum[activeFilters.model] : undefined,
-    };
+    const mappedFilters = Object.fromEntries(
+      Object.entries(activeFilters).map(([key, value]) => {
+        if (key === "transmission" && TransmissionEnum[value]) {
+          return [key, TransmissionEnum[value]]; // Преобразуем transmission
+        }
+        if (key === "color" && ColorEnum[value]) {
+          return [key, ColorEnum[value]]; // Преобразуем color
+        }
+        if (key === "model" && CarModelEnum[value]) {
+          return [key, CarModelEnum[value]]; // Преобразуем model
+        }
+        return [key, value]; // Оставляем остальные поля без изменений
+      })
+    );
 
     await fetchAds(null, mappedFilters); // Отправляем запрос с преобразованными фильтрами
   };
